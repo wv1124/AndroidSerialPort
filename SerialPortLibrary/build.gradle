@@ -1,4 +1,7 @@
 apply plugin: 'com.android.library'
+apply plugin: 'maven'
+
+version = "1.0.1"
 
 android {
     compileSdkVersion 23
@@ -36,4 +39,22 @@ dependencies {
     })
     compile 'com.android.support:appcompat-v7:23.4.0'
     testCompile 'junit:junit:4.12'
+}
+
+uploadArchives {
+    configuration = configurations.archives
+    repositories {
+        mavenDeployer {
+            repository(url: MAVEN_REPO_RELEASE_URL) {
+                authentication(userName: NEXUS_USERNAME, password: NEXUS_PASSWORD)
+            }
+            pom.project {
+                version version
+                artifactId 'AndroidSerialPort'
+                groupId 'com.qianmi.ares.adminapp'
+                packaging 'aar'
+                description 'sunmi lib for android'
+            }
+        }
+    }
 }
